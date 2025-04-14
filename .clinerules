@@ -1,0 +1,58 @@
+# YourBench Project Rules and Patterns
+
+## Project Structure Patterns
+- Python modules follow a clear hierarchy with pipeline stages in `yourbench/pipeline/`
+- Utility functions are organized in `yourbench/utils/`
+- Configuration files use YAML format and are stored in the `configs/` directory
+- Example data is stored in `example/data/` with raw and processed subdirectories
+- Logs are stored in the `logs/` directory with stage-specific log files
+
+## Coding Patterns
+- Each pipeline stage has a standard `run(config)` interface
+- Configuration is extracted from a global config dictionary
+- Typed dataclasses are used for configuration validation
+- Google-style docstrings are used for documentation
+- Loguru is used for structured logging
+- Error handling includes detailed error messages and stage-specific log files
+
+## Configuration Patterns
+- Environment variables are referenced with `$` prefix in YAML
+- Model roles are defined separately from model configurations
+- Pipeline stages can be enabled/disabled with `run: true/false`
+- Chunk sampling can be configured by percentage or count
+- Additional instructions can be provided for question generation
+
+## Workflow Patterns
+- Pipeline stages are executed in a fixed order defined in `DEFAULT_STAGE_ORDER`
+- Each stage operates on the output of previous stages
+- Intermediate results are saved as datasets for inspection and reuse
+- Timing information is collected for performance analysis
+- Error logs are stored in stage-specific files
+
+## Naming Conventions
+- Pipeline stage modules use snake_case (e.g., `single_shot_question_generation.py`)
+- Classes use PascalCase (e.g., `SingleShotQuestionGenerationConfig`)
+- Functions and variables use snake_case (e.g., `run_pipeline`)
+- Configuration keys use snake_case (e.g., `source_documents_dir`)
+- Constants use UPPER_SNAKE_CASE (e.g., `DEFAULT_STAGE_ORDER`)
+
+## Documentation Patterns
+- Each module has a detailed docstring explaining its purpose and usage
+- Functions have Google-style docstrings with Args, Returns, and Raises sections
+- Complex logic includes inline comments explaining the rationale
+- README.md provides an overview of the project and quick start instructions
+- CONFIGURATION.md explains the configuration options in detail
+
+## Testing Patterns
+- Tests are organized in a `tests/` directory mirroring the project structure
+- Pytest is used for testing
+- Mock objects are used for external dependencies like LLM providers
+- Test data is stored in `tests/data/`
+- CI/CD runs tests automatically on pull requests
+
+## User Interaction Patterns
+- Command-line interface uses Typer for argument parsing
+- Error messages are clear and actionable
+- Progress is reported through structured logging
+- Configuration validation provides helpful error messages
+- Pipeline timing is visualized for performance analysis
