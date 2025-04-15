@@ -4,7 +4,7 @@ import path from "path"
 import fs from "fs/promises"
 import yaml from "yaml"
 
-interface PipelineStatus {
+export interface PipelineStatus {
   status: "idle" | "running" | "completed" | "error"
   progress: number | null
   results: {
@@ -15,13 +15,13 @@ interface PipelineStatus {
   logs?: string[]
 }
 
-interface PipelineState {
+export interface PipelineState {
   status: PipelineStatus
   process?: ChildProcess
   logs: string[]
 }
 
-let currentPipeline: PipelineState = {
+export let currentPipeline: PipelineState = {
   status: {
     status: "idle",
     progress: null,

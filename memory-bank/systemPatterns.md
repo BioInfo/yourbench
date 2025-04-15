@@ -1,5 +1,3 @@
-# System Patterns
-
 ## Web Interface Architecture
 
 ### Component Structure
@@ -102,17 +100,45 @@ yourbench/
    - Stage progress
    - Real-time updates
    - Log output
+   - Metric collection
 
 2. Document Status
    - Upload progress
    - Processing status
    - Error states
+   - Dataset tracking
 
-### Authentication Pattern
-1. API Keys
+3. Analysis Status
+   - Metric updates
+   - Dataset sync state
+   - Processing progress
+   - Error recovery
+
+### Data Integration Pattern
+1. Hugging Face Integration
+   - Dataset synchronization
+   - Metric extraction
+   - Error handling
+   - State management
+
+2. API Integration
    - OpenAI integration
    - Hugging Face access
-   - Environment configuration
+   - Environment validation
+   - Error recovery
+
+### Analysis Pattern
+1. Metric Collection
+   - Data aggregation
+   - Real-time updates
+   - Error handling
+   - State management
+
+2. Data Visualization
+   - Chart components
+   - Interactive displays
+   - Loading states
+   - Error feedback
 
 ### Testing Pattern
 1. Component Tests

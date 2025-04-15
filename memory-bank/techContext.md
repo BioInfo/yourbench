@@ -13,6 +13,8 @@
 - Radix UI (Primitives)
 - Monaco Editor (YAML editing)
 - Sonner (Toast notifications)
+- Chart.js (Data visualization)
+- React Table (Data grids)
 
 ### State Management
 - Zustand (Global state)
@@ -30,6 +32,9 @@
 - Dataset management
 - Model inference
 - Repository integration
+- Dataset metrics API
+- Real-time sync
+- Error recovery
 
 ### OpenAI
 - GPT-3.5-turbo for:
@@ -128,12 +133,18 @@ yourbench/
 - Dynamic imports
 - Image optimization
 - Caching strategies
+- Data prefetching
+- Metric caching
+- Real-time updates
 
 ### Server-side
 - API response caching
 - File stream processing
 - Error handling
 - Rate limiting
+- Dataset caching
+- Metric aggregation
+- Status tracking
 
 ## Security Considerations
 
@@ -156,12 +167,18 @@ yourbench/
 - Error boundaries
 - Performance monitoring
 - State tracking
+- Metric tracking
+- Dataset sync status
+- Real-time updates
 
 ### Server-side
 - API logs
 - Error tracking
 - Pipeline monitoring
 - Status updates
+- Dataset metrics
+- Sync status
+- Error recovery
 
 ## Testing Strategy
 
