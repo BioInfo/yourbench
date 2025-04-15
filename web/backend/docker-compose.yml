@@ -1,0 +1,84 @@
+version: '3.8'
+
+services:
+  api:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql://yourbench:yourbench@db:5432/yourbench
+      - REDIS_URL=redis://redis:6379/0
+      - PYTHONPATH=/app
+    volumes:
+      - ./app:/app/app
+      - uploads:/app/uploads
+      - results:/app/results
+    depends_on:
+      - db
+      - redis
+    networks:
+      - yourbench-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  celery_worker:
+    build: .
+    command: celery -A app.workers.celery worker --loglevel=info
+    environment:
+      - DATABASE_URL=postgresql://yourbench:yourbench@db:5432/yourbench
+      - REDIS_URL=redis://redis:6379/0
+      - PYTHONPATH=/app
+    volumes:
+      - ./app:/app/app
+      - uploads:/app/uploads
+      - results:/app/results
+    depends_on:
+      - redis
+      - db
+    networks:
+      - yourbench-network
+
+  db:
+    image: postgres:15-alpine
+    environment:
+      - POSTGRES_USER=yourbench
+      - POSTGRES_PASSWORD=yourbench
+      - POSTGRES_DB=yourbench
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - yourbench-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U yourbench"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - yourbench-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_data:
+  redis_data:
+  uploads:
+  results:
+
+networks:
+  yourbench-network:
+    driver: bridge

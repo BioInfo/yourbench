@@ -1,86 +1,82 @@
 # YourBench Active Context
 
 ## Current Focus
-The YourBench project is currently in alpha stage, with a functional pipeline that supports document ingestion, summarization, chunking, and question generation. The focus is on stabilizing the core pipeline, improving question quality, and enhancing the user experience.
+The project is currently in Phase 2: Frontend Basics of the web interface development, focusing on implementing the Configuration UI. We have:
+
+1. Created a FastAPI backend with:
+   - Configuration management endpoints
+   - Document upload and management
+   - Task execution and monitoring
+   - Database integration with SQLAlchemy
+
+2. Set up the frontend React application with:
+   - TypeScript and Vite for modern development
+   - Tailwind CSS for styling
+   - React Query for data management
+   - React Router for navigation
+   - Toast notifications system
+
+3. Implemented core frontend components:
+   - MainLayout with navigation
+   - Configuration builder with form and YAML editor
+   - Toast notification system
+   - Type-safe API client
 
 ## Recent Changes
-- Implemented the core pipeline stages (ingestion, summarization, chunking, question generation)
-- Created a configuration-driven architecture for flexible pipeline customization
-- Developed a unified inference engine for working with different LLM providers
-- Established structured prompts for single-shot and multi-hop question generation
-- Added support for various document formats through the MarkItDown library
-- Implemented dataset management for storing intermediate and final results
+- Set up complete backend API structure
+- Created database models and CRUD operations
+- Implemented configuration builder component
+- Added toast notification system
+- Set up development environment with Docker
 
 ## Active Decisions
 
-### 1. Pipeline Architecture
-- **Decision**: Implement a modular pipeline with configurable stages
-- **Rationale**: Allows users to enable/disable stages as needed and customize the pipeline for their specific use cases
-- **Status**: Implemented and working as expected
+### 1. Frontend Architecture
+- **Decision**: Use React with TypeScript and Vite
+- **Rationale**: Modern tooling, type safety, and developer experience
+- **Status**: Implemented and working
 
-### 2. Model Selection
-- **Decision**: Allow different models for different pipeline stages
-- **Rationale**: Different stages (e.g., ingestion vs. question generation) may benefit from specialized models
-- **Status**: Implemented through the model_roles configuration
+### 2. API Design
+- **Decision**: RESTful API with FastAPI
+- **Rationale**: Performance, automatic OpenAPI docs, async support
+- **Status**: Core endpoints implemented
 
-### 3. Question Generation Approach
-- **Decision**: Support both single-shot (simple) and multi-hop (complex) question generation
-- **Rationale**: Provides a range of question complexity for comprehensive evaluation
-- **Status**: Both approaches implemented, with ongoing refinement of prompts
+### 3. Styling System
+- **Decision**: Tailwind CSS with custom design tokens
+- **Rationale**: Rapid development, consistent design, customizable
+- **Status**: Base styles and components styled
 
-### 4. Chunking Strategy
-- **Decision**: Use semantic similarity for intelligent document chunking
-- **Rationale**: Creates more meaningful chunks compared to simple length-based splitting
-- **Status**: Implemented, with parameters configurable through YAML
-
-### 5. Dataset Management
-- **Decision**: Use Hugging Face Datasets for storing intermediate and final results
-- **Rationale**: Provides a standardized format with good tooling support
-- **Status**: Implemented with options for local storage or Hub upload
+### 4. State Management
+- **Decision**: React Query with custom hooks
+- **Rationale**: Built-in caching, real-time updates, optimistic updates
+- **Status**: Basic queries and mutations implemented
 
 ## Current Considerations
 
-### 1. Question Quality
-- How to ensure generated questions are meaningful and challenging
-- Balancing question difficulty based on user preferences
-- Improving the diversity of question types
+### 1. Frontend Performance
+- Optimize bundle size
+- Implement code splitting
+- Add loading states and placeholders
 
-### 2. Performance Optimization
-- Optimizing LLM usage to reduce costs
-- Improving pipeline efficiency for large document sets
-- Implementing parallel processing where possible
+### 2. Error Handling
+- Improve error messages
+- Add retry mechanisms
+- Implement global error boundary
 
 ### 3. User Experience
-- Simplifying configuration for new users
-- Providing better feedback during pipeline execution
-- Adding visualization tools for analyzing generated questions
+- Add form validation
+- Improve loading states
+- Add success/error feedback
 
-### 4. Evaluation Metrics
-- Developing metrics to evaluate the quality of generated questions
-- Creating tools to compare model performance on generated benchmarks
-- Implementing deduplication to remove similar questions
+### 4. Testing Strategy
+- Set up testing infrastructure
+- Add unit tests for components
+- Add integration tests for API
 
 ## Next Steps
-1. Implement deduplication for single-shot and multi-hop questions
-2. Enhance error handling and recovery mechanisms
-3. Improve documentation and examples
-4. Add more analysis tools for evaluating generated questions
-5. Develop a web interface for easier interaction with the pipeline (see webInterfacePlan.md)
-6. Expand testing coverage to ensure reliability
-
-## Web Interface Development
-A comprehensive plan has been created for developing a web-based interface for YourBench. This interface will allow users to:
-
-1. Configure and run the YourBench pipeline through an intuitive web UI
-2. Upload source documents through a drag-and-drop interface
-3. Monitor pipeline execution in real-time
-4. Retrieve and visualize generated benchmark datasets
-5. Explore results with interactive visualizations
-
-The development will follow a phased approach over 14 weeks, focusing on:
-- Core backend services (REST API, Pipeline Runner)
-- Frontend application (Configuration Builder, Document Uploader)
-- Results visualization components
-- Deployment options (local and cloud)
-
-See `webInterfacePlan.md` for the complete development plan.
+1. Complete document uploader component
+2. Implement task monitoring interface
+3. Add results visualization
+4. Set up end-to-end testing
+5. Add documentation for frontend
+6. Implement user authentication
