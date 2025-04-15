@@ -1,101 +1,132 @@
-# YourBench System Patterns
+# System Patterns
 
-## Architecture Overview
-YourBench follows a modular pipeline architecture with distinct stages that can be enabled or disabled via configuration. The system is designed to be extensible, allowing for custom implementations of each stage while maintaining a consistent data flow throughout the pipeline.
+## Web Interface Architecture
 
-## Core Components
+### Component Structure
+```
+yourbench-web/
+├── src/
+│   ├── app/              # Next.js app router pages
+│   ├── components/       # Reusable React components
+│   ├── lib/             # Shared utilities and types
+│   └── styles/          # Global styles
+```
 
-### 1. Pipeline Handler
-- **Purpose**: Orchestrates the execution of pipeline stages in a specified order
-- **Implementation**: `yourbench/pipeline/handler.py`
-- **Key Responsibilities**:
-  - Loads pipeline configuration from YAML/JSON
-  - Executes each stage if enabled in the configuration
-  - Logs errors to stage-specific log files
-  - Collects timing data for performance analysis
-  - Generates timing charts for pipeline execution
+### State Management Pattern
+- Zustand store for global state
+- Centralized API service layer
+- Real-time status updates
+- Document and pipeline tracking
 
-### 2. Pipeline Stages
-Each stage is implemented as a separate module with a standard `run(config)` interface:
+### API Layer Organization
+```typescript
+// Centralized API service
+api/
+├── documents/     # Document management
+├── pipeline/      # Pipeline execution
+├── huggingface/   # HF integration
+└── analysis/      # Results and metrics
+```
 
-#### a. Ingestion
-- **Purpose**: Converts source documents to markdown format
-- **Implementation**: `yourbench/pipeline/ingestion.py`
-- **Pattern**: Uses the MarkItDown library with optional LLM support for advanced conversions
+### Component Patterns
+1. Container Components
+   - Handle state and logic
+   - Use store and API services
+   - Pass data to presentational components
 
-#### b. Upload Ingest to Hub
-- **Purpose**: Uploads processed documents to Hugging Face Hub
-- **Implementation**: `yourbench/pipeline/upload_ingest_to_hub.py`
+2. Presentational Components
+   - Focus on UI rendering
+   - Accept props for data
+   - Minimal direct state management
 
-#### c. Summarization
-- **Purpose**: Generates concise summaries of documents
-- **Implementation**: `yourbench/pipeline/summarization.py`
-- **Pattern**: Uses LLMs to create document summaries
+3. Layout Components
+   - Handle page structure
+   - Manage navigation
+   - Control responsive behavior
 
-#### d. Chunking
-- **Purpose**: Splits documents into manageable chunks for question generation
-- **Implementation**: `yourbench/pipeline/chunking.py`
-- **Pattern**: Uses semantic similarity for intelligent chunking
+### File Organization
+```
+components/
+├── layout/       # Page layout components
+├── upload/       # Document upload components
+├── pipeline/     # Pipeline configuration and monitoring
+└── analysis/     # Analysis and visualization
+```
 
-#### e. Single-Shot Question Generation
-- **Purpose**: Creates standalone questions from individual chunks
-- **Implementation**: `yourbench/pipeline/single_shot_question_generation.py`
-- **Pattern**: Uses LLMs with structured prompts to generate QA pairs
+### Data Flow Pattern
+1. User Action → Component
+2. Component → Store Action
+3. Store Action → API Call
+4. API Response → Store Update
+5. Store Update → Component Re-render
 
-#### f. Multi-Hop Question Generation
-- **Purpose**: Creates complex questions requiring information from multiple chunks
-- **Implementation**: `yourbench/pipeline/multi_hop_question_generation.py`
-- **Pattern**: Combines multiple chunks and uses LLMs to generate integrative questions
+### Error Handling Pattern
+1. API Layer
+   - Try-catch blocks
+   - Error response formatting
+   - Status code handling
 
-#### g. LightEval
-- **Purpose**: Combines single-shot and multi-hop questions into a unified dataset
-- **Implementation**: `yourbench/pipeline/lighteval.py`
+2. Store Layer
+   - Error state management
+   - Loading state tracking
+   - Status updates
 
-### 3. Utility Components
+3. UI Layer
+   - Error message display
+   - Loading indicators
+   - Status feedback
 
-#### a. Dataset Engine
-- **Purpose**: Handles dataset loading and saving
-- **Implementation**: `yourbench/utils/dataset_engine.py`
-- **Pattern**: Abstracts Hugging Face dataset operations
+### File Storage Pattern
+```
+yourbench/
+├── example/
+│   ├── data/
+│   │   ├── raw/        # Original uploaded files
+│   │   └── processed/  # Converted markdown files
+│   └── configs/        # Pipeline configurations
+```
 
-#### b. Inference Engine
-- **Purpose**: Manages LLM inference across different providers
-- **Implementation**: `yourbench/utils/inference_engine.py`
-- **Pattern**: Provides a unified interface for different LLM providers
+### Configuration Pattern
+1. Environment Variables
+   - API keys
+   - Organization settings
+   - Debug flags
 
-#### c. Parsing Engine
-- **Purpose**: Parses structured responses from LLMs
-- **Implementation**: `yourbench/utils/parsing_engine.py`
-- **Pattern**: Extracts structured data from LLM outputs
+2. Pipeline Configuration
+   - YAML format
+   - Stage configuration
+   - Model settings
 
-#### d. Prompts
-- **Purpose**: Defines system and user prompts for LLM interactions
-- **Implementation**: `yourbench/utils/prompts.py`
-- **Pattern**: Maintains consistent prompt templates across the pipeline
+### Monitoring Pattern
+1. Pipeline Status
+   - Stage progress
+   - Real-time updates
+   - Log output
 
-## Design Patterns
+2. Document Status
+   - Upload progress
+   - Processing status
+   - Error states
 
-### 1. Configuration-Driven Architecture
-- YAML configuration files define pipeline behavior
-- Each stage reads its configuration from a common config object
-- Environment variables can be referenced in configuration
+### Authentication Pattern
+1. API Keys
+   - OpenAI integration
+   - Hugging Face access
+   - Environment configuration
 
-### 2. Modular Pipeline
-- Each stage is independent and can be enabled/disabled
-- Stages communicate through standardized dataset formats
-- New stages can be added by implementing the standard interface
+### Testing Pattern
+1. Component Tests
+   - Unit tests for utilities
+   - Integration tests for API
+   - UI component tests
 
-### 3. Model Abstraction
-- Models are defined in configuration and assigned to roles
-- Different models can be used for different pipeline stages
-- Unified inference interface abstracts provider-specific details
+### Documentation Pattern
+1. Code Documentation
+   - TypeScript interfaces
+   - JSDoc comments
+   - README files
 
-### 4. Error Handling
-- Stage-specific log files capture detailed error information
-- Pipeline continues execution even if individual stages fail
-- Comprehensive error reporting for debugging
-
-### 5. Data Flow
-- Documents → Markdown → Summaries → Chunks → Questions → Evaluation Sets
-- Each stage transforms the data and passes it to the next stage
-- Intermediate results are saved as datasets for inspection and reuse
+2. User Documentation
+   - Configuration guide
+   - API documentation
+   - Troubleshooting guide

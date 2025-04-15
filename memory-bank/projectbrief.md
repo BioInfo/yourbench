@@ -1,31 +1,191 @@
-# YourBench Project Brief
+# Project Brief: YourBench Web Interface
 
 ## Project Overview
-YourBench is an open-source framework for generating domain-specific benchmarks in a zero-shot manner. It aims to keep large language models (LLMs) on their toes by creating fresh evaluation tasks from real-world source documents, even as new data sources, domains, and knowledge demands evolve.
+Create a web interface for YourBench to provide a user-friendly way to generate, manage, and analyze benchmarks for language models.
 
 ## Core Objectives
-1. Create dynamic, up-to-date question-answer pairs from real-world source documents
-2. Generate benchmarks that test LLMs on zero-shot tasks to guard against memorized knowledge
-3. Provide a scalable and structured pipeline for handling ingestion, summarization, and question generation
-4. Support extensibility through modular pipeline stages and easy plugin mechanisms
 
-## Key Features
-- **Dynamic Benchmark Generation**: Produce diverse, up-to-date questions from various source documents (PDF, Word, HTML, multimedia)
-- **Scalable & Structured**: Handle ingestion, summarization, and multi-hop chunking for large or specialized datasets
-- **Zero-Shot Focus**: Create fresh tasks that guard against memorized knowledge
-- **Extensible**: Modular pipeline stages with easy plugin mechanisms for custom models or domain constraints
+### 1. Document Management
+- [x] Implement drag-and-drop file upload
+- [x] Support multiple file formats (PDF, DOCX, HTML, TXT)
+- [x] Provide document status tracking
+- [x] Enable document organization
+
+### 2. Pipeline Configuration
+- [x] Create YAML configuration editor
+- [x] Implement template system
+- [x] Support environment variables
+- [x] Enable stage configuration
+
+### 3. Progress Monitoring
+- [x] Show real-time pipeline status
+- [x] Display stage progress
+- [x] Show log output
+- [x] Provide error feedback
+
+### 4. Analysis Tools
+- [x] Basic metrics display
+- [ ] Enhanced visualization
+- [ ] Result filtering
+- [ ] Export options
 
 ## Technical Requirements
-- Support for multiple document formats (PDF, HTML, Word, text)
-- Configurable pipeline stages via YAML configuration
-- Multi-model ensemble support for different pipeline stages
-- Deduplication and quality filtering of generated questions
-- Extensive logging and analysis capabilities
-- Optional integration with Hugging Face Hub for dataset storage
+
+### Frontend
+- [x] Next.js 14 with App Router
+- [x] TypeScript for type safety
+- [x] Tailwind CSS for styling
+- [x] Component library (shadcn/ui)
+
+### Backend Integration
+- [x] Document processing API
+- [x] Pipeline execution API
+- [x] Hugging Face integration
+- [x] Analysis results API
+
+### State Management
+- [x] Global store (Zustand)
+- [x] Real-time updates
+- [x] Error handling
+- [x] Progress tracking
+
+## Project Status
+
+### Completed
+1. Core infrastructure
+   - Next.js setup
+   - Component library
+   - API routes
+   - State management
+
+2. Document handling
+   - Upload interface
+   - File processing
+   - Status tracking
+   - List view
+
+3. Pipeline execution
+   - Configuration editor
+   - Progress monitoring
+   - Log display
+   - Status updates
+
+### In Progress
+1. Error handling improvements
+   - Better HF API error recovery
+   - User feedback
+   - Automatic retries
+
+2. Analysis features
+   - Enhanced visualization
+   - Result filtering
+   - Export options
+
+### Planned
+1. Template management
+   - Save configurations
+   - Share templates
+   - Quick access
+
+2. User settings
+   - API key management
+   - Default configurations
+   - UI preferences
 
 ## Success Criteria
-1. Successfully generate meaningful question-answer pairs from various document types
-2. Support both single-shot (simple) and multi-hop (complex) question generation
-3. Provide configurable pipeline stages that can be enabled/disabled as needed
-4. Allow for different models to be used at different stages of the pipeline
-5. Generate benchmarks that effectively test LLM capabilities in a zero-shot manner
+
+### Functionality
+- [x] Document upload works reliably
+- [x] Pipeline configuration is user-friendly
+- [x] Progress monitoring is accurate
+- [x] Results are accessible
+
+### Performance
+- [x] Fast file uploads
+- [x] Responsive interface
+- [x] Real-time updates
+- [x] Efficient processing
+
+### User Experience
+- [x] Intuitive interface
+- [x] Clear feedback
+- [x] Error handling
+- [x] Progress indication
+
+## Timeline
+
+### Phase 1: MVP (Completed)
+- Basic document management
+- Pipeline configuration
+- Progress monitoring
+- Initial analysis
+
+### Phase 2: Enhancement (Current)
+- Error handling improvements
+- Analysis visualization
+- Template management
+- User settings
+
+### Phase 3: Polish (Planned)
+- Performance optimization
+- Enhanced visualization
+- Export options
+- Documentation
+
+## Resources
+
+### Development Team
+- Frontend developers
+- Backend integration
+- UX/UI design
+- Testing
+
+### Infrastructure
+- Next.js hosting
+- API endpoints
+- File storage
+- Database
+
+### External Services
+- Hugging Face
+- OpenAI
+- File processing
+- Analytics
+
+## Risks and Mitigation
+
+### Technical Risks
+1. API reliability
+   - Error handling
+   - Retry logic
+   - Status tracking
+
+2. Performance
+   - Optimization
+   - Caching
+   - Load testing
+
+### User Risks
+1. Complexity
+   - Clear documentation
+   - User guidance
+   - Error prevention
+
+2. Data handling
+   - Validation
+   - Backup
+   - Recovery
+
+## Success Metrics
+
+### Technical
+- Upload success rate
+- Pipeline completion rate
+- Response times
+- Error rates
+
+### User
+- Task completion rate
+- Time efficiency
+- Error recovery
+- Satisfaction

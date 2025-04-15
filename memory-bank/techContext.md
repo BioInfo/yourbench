@@ -1,124 +1,183 @@
-# YourBench Technical Context
+# Technical Context
 
-## Technology Stack
+## Web Interface Stack
 
 ### Core Technologies
-- **Python**: Primary programming language
-- **Hugging Face Datasets**: For dataset management and storage
-- **Hugging Face Hub**: For optional dataset publishing
-- **YAML/JSON**: For configuration management
-- **Loguru**: For structured logging
-- **Typer**: For CLI interface
-- **Matplotlib**: For visualization of pipeline timing
+- Next.js 14 (App Router)
+- React 19
+- TypeScript
+- Tailwind CSS
 
-### External Dependencies
-- **MarkItDown**: Library for converting various document formats to markdown
-- **Sentence Transformers**: For semantic embeddings used in chunking
-- **LLM Providers**: Support for various LLM providers through a unified interface
+### UI Components
+- shadcn/ui (React components)
+- Radix UI (Primitives)
+- Monaco Editor (YAML editing)
+- Sonner (Toast notifications)
 
-## Development Environment
-- **Package Management**: Uses uv for dependency management
-- **Code Quality**: Uses Ruff for code formatting and linting
-- **Testing**: Uses pytest for testing
-- **Documentation**: Uses Google-style docstrings for code documentation
+### State Management
+- Zustand (Global state)
+- React Query (Data fetching)
 
-## Project Structure
+### Development Tools
+- ESLint
+- Prettier
+- TypeScript
+- npm
+
+## API Integration
+
+### Hugging Face
+- Dataset management
+- Model inference
+- Repository integration
+
+### OpenAI
+- GPT-3.5-turbo for:
+  - Document processing
+  - Question generation
+  - Summarization
+
+## File Processing
+- PDF parsing
+- DOCX conversion
+- HTML processing
+- Markdown generation
+
+## Environment Setup
+
+### Required Environment Variables
+```bash
+# Hugging Face
+HF_TOKEN=your_huggingface_token
+HF_ORGANIZATION=your_huggingface_username
+
+# OpenAI
+OPENAI_API_KEY=your_openai_api_key
+
+# Debug
+DEBUG=false
+```
+
+### Directory Structure
 ```
 yourbench/
-├── __init__.py
-├── main.py                 # CLI entry point
-├── analysis/               # Analysis modules
-│   └── __init__.py
-├── pipeline/               # Pipeline stages
-│   ├── __init__.py
-│   ├── chunking.py
-│   ├── handler.py          # Pipeline orchestration
-│   ├── ingestion.py
-│   ├── lighteval.py
-│   ├── multi_hop_question_generation.py
-│   ├── single_shot_question_generation.py
-│   ├── summarization.py
-│   └── upload_ingest_to_hub.py
-└── utils/                  # Utility modules
-    ├── __init__.py
-    ├── dataset_engine.py   # Dataset operations
-    ├── inference_engine.py # LLM inference
-    ├── load_task_config.py # Configuration loading
-    ├── loading_engine.py   # Data loading
-    ├── parsing_engine.py   # Response parsing
-    └── prompts.py          # LLM prompts
+├── example/
+│   ├── data/
+│   │   ├── raw/        # Original files
+│   │   └── processed/  # Markdown files
+│   └── configs/        # Pipeline configs
+└── yourbench-web/     # Web interface
+    ├── src/
+    │   ├── app/       # Pages
+    │   ├── components/# UI components
+    │   └── lib/       # Utilities
+    └── public/        # Static files
 ```
 
-## Configuration System
-YourBench uses a YAML-based configuration system with the following key sections:
+## Dependencies
 
-### 1. Hugging Face Configuration
-```yaml
-hf_configuration:
-  token: $HF_TOKEN
-  hf_organization: $HF_ORGANIZATION
-  private: false
-  hf_dataset_name: yourbench_example
-  concat_if_exist: false
+### Production Dependencies
+```json
+{
+  "next": "^14.0.0",
+  "react": "^19.0.0",
+  "typescript": "^5.0.0",
+  "zustand": "^4.0.0",
+  "tailwindcss": "^3.0.0",
+  "monaco-editor": "^0.45.0",
+  "sonner": "^1.0.0",
+  "yaml": "^2.0.0"
+}
 ```
 
-### 2. Model Configuration
-```yaml
-model_list:
-  - model_name: Qwen/Qwen2.5-VL-72B-Instruct
-    provider: hf-inference
-    api_key: $HF_TOKEN
-    max_concurrent_requests: 32
-
-model_roles:
-  ingestion:
-    - Qwen/Qwen2.5-VL-72B-Instruct
-  summarization:
-    - Qwen/Qwen2.5-72B-Instruct
-  # ... other roles
+### Development Dependencies
+```json
+{
+  "@types/react": "^19.0.0",
+  "@types/node": "^20.0.0",
+  "eslint": "^8.0.0",
+  "prettier": "^3.0.0",
+  "typescript": "^5.0.0"
+}
 ```
 
-### 3. Pipeline Configuration
-```yaml
-pipeline:
-  ingestion:
-    run: true
-    source_documents_dir: example/data/raw
-    output_dir: example/data/processed
-  
-  # ... other pipeline stages
-```
+## Technical Requirements
 
-## Technical Constraints
+### Browser Support
+- Modern browsers (Chrome, Firefox, Safari, Edge)
+- ES6+ JavaScript support
+- WebSocket support for real-time updates
 
-### 1. Model Availability
-- Requires access to LLMs for various pipeline stages
-- Performance depends on the quality of the models used
-- May require API keys for commercial LLM providers
+### Server Requirements
+- Node.js 18+
+- Python 3.8+ (for YourBench core)
+- File system access
+- Network access for API calls
 
-### 2. Resource Requirements
-- Processing large documents may require significant memory
-- LLM inference can be computationally expensive
-- Multi-hop question generation combines multiple chunks, increasing complexity
+### Development Environment
+- VS Code (recommended)
+- Git
+- Node.js
+- Python
+- Virtual environment
 
-### 3. Data Limitations
-- Document conversion quality depends on the source format
-- Some document types (e.g., complex PDFs with tables) may not convert perfectly
-- Question quality depends on the quality of the source documents and chunks
+## Performance Considerations
 
-## Integration Points
+### Client-side
+- Code splitting
+- Dynamic imports
+- Image optimization
+- Caching strategies
 
-### 1. Hugging Face Hub
-- Optional integration for dataset storage and sharing
-- Requires Hugging Face token for authentication
-- Can be configured to create public or private datasets
+### Server-side
+- API response caching
+- File stream processing
+- Error handling
+- Rate limiting
 
-### 2. LLM Providers
-- Flexible integration with various LLM providers
-- Unified interface through the inference engine
-- Configurable model selection for different pipeline stages
+## Security Considerations
 
-### 3. Custom Analysis
-- Extensible analysis framework for evaluating generated questions
-- Can be integrated with custom metrics and evaluation criteria
-- Supports visualization of pipeline performance
+### API Security
+- Environment variable protection
+- API key management
+- Input validation
+- Error handling
+
+### File Security
+- File type validation
+- Size limits
+- Path traversal prevention
+- Secure storage
+
+## Monitoring and Debugging
+
+### Client-side
+- Console logging
+- Error boundaries
+- Performance monitoring
+- State tracking
+
+### Server-side
+- API logs
+- Error tracking
+- Pipeline monitoring
+- Status updates
+
+## Testing Strategy
+
+### Unit Tests
+- Component testing
+- Utility function testing
+- API integration testing
+
+### Integration Tests
+- End-to-end workflows
+- API endpoints
+- File processing
+- Pipeline execution
+
+### Performance Tests
+- Load testing
+- Response times
+- Resource usage
+- Concurrent operations
